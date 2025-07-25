@@ -43,7 +43,7 @@ Copy the example below into a new `.env` file:
 
 ```dotenv
 ZEROEX_API_KEY="your-0x-api-key" 
-PRIVATE_KEY="your-base58-solana-private-key" # `PRIVATE_KEY` must be base58-encoded
+PRIVATE_KEY="your-base58-solana-private-key" # Must be base58-encoded
 RPC_API_KEY="your-helius-api-key" # Get a free RPC key from [Helius](https://www.helius.dev/).
 ```
 

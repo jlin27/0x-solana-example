@@ -3,9 +3,9 @@ import {
   Connection,
   Keypair,
   PublicKey,
-  Transaction,
   TransactionInstruction,
-  sendAndConfirmTransaction,
+  TransactionMessage,
+  VersionedTransaction,
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import fetch from "node-fetch";
@@ -21,25 +21,27 @@ if (!ZEROEX_API_KEY || !PRIVATE_KEY || !RPC_API_KEY) {
 }
 
 const RPC_URL = `https://mainnet.helius-rpc.com/?api-key=${RPC_API_KEY}`;
-
 const connection = new Connection(RPC_URL, "confirmed");
 const takerKeypair = Keypair.fromSecretKey(bs58.decode(PRIVATE_KEY));
 
 // === Step 1: Get a Quote ===
 async function getQuote(): Promise<any> {
-  const response = await fetch("https://staging.api.0x.org/solana/quote", {
-    method: "POST",
-    headers: {
-      "0x-api-key": ZEROEX_API_KEY as string,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      tokenIn: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
-      tokenOut: "So11111111111111111111111111111111111111112", // SOL
-      amountIn: 10000, // .01 USDC
-      taker: takerKeypair.publicKey.toBase58(),
-    }),
-  });
+  const response = await fetch(
+    "https://staging.api.0x.org/solana/swap-instructions",
+    {
+      method: "POST",
+      headers: {
+        "0x-api-key": ZEROEX_API_KEY as string,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tokenIn: "So11111111111111111111111111111111111111112", // SOL
+        tokenOut: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
+        amountIn: 10000000, // .01 SOL
+        taker: takerKeypair.publicKey.toBase58(),
+      }),
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch quote: ${response.statusText}`);
@@ -72,14 +74,22 @@ function buildInstructions(instructionsData: any[]): TransactionInstruction[] {
 async function executeSwap() {
   const quote = await getQuote();
   const instructions = buildInstructions(quote.instructions);
+  const latestBlockhash = await connection.getLatestBlockhash();
 
-  const tx = new Transaction().add(...instructions);
-  tx.feePayer = takerKeypair.publicKey;
-  tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+  // Create transaction message
+  const messageV0 = new TransactionMessage({
+    payerKey: takerKeypair.publicKey,
+    recentBlockhash: latestBlockhash.blockhash,
+    instructions,
+  }).compileToV0Message(); // No ALT
 
-  tx.partialSign(takerKeypair);
-  const signature = await connection.sendRawTransaction(tx.serialize(), {
-    skipPreflight: false,
+  // Create versioned transaction
+  const versionedTx = new VersionedTransaction(messageV0);
+  versionedTx.sign([takerKeypair]);
+
+  const signature = await connection.sendTransaction(versionedTx, {
+    maxRetries: 2, // Increase retries for better chance of landing
+    skipPreflight: false, // Enable preflight checks to catch errors
   });
 
   await connection.confirmTransaction(signature, "confirmed");
