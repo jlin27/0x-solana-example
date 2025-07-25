@@ -86,7 +86,7 @@ async function executeSwap() {
     const versionedTx = new VersionedTransaction(messageV0);
     versionedTx.sign([takerKeypair]);
 
-    // === 🧪 Simulate Transaction ===
+    // === Simulate Transaction ===
     const { value: simulationResult } = await connection.simulateTransaction(
       versionedTx,
       {
