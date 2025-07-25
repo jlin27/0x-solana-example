@@ -10,7 +10,9 @@ This TypeScript project demonstrates how to interact with the [0x Swap API for S
 > 0x-solana-example@1.0.0 index
 > tsx src/index.ts
 
-✅ Swap complete. https://solscan.io/tx/3mfqkqn41c7Ygke36dpHo3fXhE9fgScfMYDDAMePRovq7apaJp1LrrncvFuukTNtQJGN7eoBgQKN9sFNyxZPoZvz
+✅ Simulation succeeded
+🔗 View on Solscan: https://solscan.io/tx/3fM1aQJMpBMK9BKDo58p66FvQQvFMR2LGxEpayDeNkirjB8bgQmvYwQofxdLvkRb28XUkLqs1ab23RjYpKBwV1mC/
+✅ Transaction confirmed: https://solscan.io/tx/3fM1aQJMpBMK9BKDo58p66FvQQvFMR2LGxEpayDeNkirjB8bgQmvYwQofxdLvkRb28XUkLqs1ab23RjYpKBwV1mC/
 ````
 
 ## What It Does
@@ -19,8 +21,9 @@ This script performs the following steps:
 
 1. Loads environment variables (API keys, private key).
 2. Fetches a swap quote from the 0x `/swap-instructions` endpoint.
-3. Parses and builds transaction instructions based on the quote.
-4. Sends a transaction to the Solana blockchain to execute the swap.
+3. Builds and signs a transaction from the instructions.
+4. Simulates the transaction to catch errors before sending.
+5. Sends a transaction to the Solana blockchain to execute the swap.
 
 ## Getting Started
 
