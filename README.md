@@ -2,27 +2,27 @@
 
 This TypeScript project demonstrates how to interact with the [0x Swap API for Solana](https://docs.0x.org) to get a quote, build swap instructions, and send a swap transaction.
 
-## ✅ Example Output
+## Example Output
 
 ```bash
-➜  0x-solana-example git:(main) ✗ npm run example
+➜  0x-solana-example git:(main) ✗ npm run index
 
-> 0x-solana-example@1.0.0 example
+> 0x-solana-example@1.0.0 index
 > tsx src/index.ts
 
-✅ Swap complete. https://solscan.io/tx/5eBLpWokqqCuaZR7Uv3k6eNbaxjLYgGBevEcREZkYjTdc2KWp6ZYk9Z44rG4LbkjR3u4DELd9RZSc52AK1mUyxLN
+✅ Swap complete. https://solscan.io/tx/3mfqkqn41c7Ygke36dpHo3fXhE9fgScfMYDDAMePRovq7apaJp1LrrncvFuukTNtQJGN7eoBgQKN9sFNyxZPoZvz
 ````
 
-## 🧪 What It Does
+## What It Does
 
 This script performs the following steps:
 
 1. Loads environment variables (API keys, private key).
-2. Fetches a swap quote from the 0x `/quote` endpoint.
+2. Fetches a swap quote from the 0x `/swap-instructions` endpoint.
 3. Parses and builds transaction instructions based on the quote.
 4. Sends a transaction to the Solana blockchain to execute the swap.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 
@@ -55,7 +55,6 @@ npm run example
 
 ## 📝 Notes
 
-* This script uses legacy `Transaction` and not `VersionedTransaction`. For swaps using address lookup tables (ALTs), additional handling may be needed.
 * The amount and token mint addresses are hardcoded for simplicity (SOL → USDC), but can be parameterized.
 
 
