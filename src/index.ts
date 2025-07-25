@@ -26,22 +26,19 @@ const takerKeypair = Keypair.fromSecretKey(bs58.decode(PRIVATE_KEY));
 
 // === Step 1: Get a Quote ===
 async function getQuote(): Promise<any> {
-  const response = await fetch(
-    "https://staging.api.0x.org/solana/swap-instructions",
-    {
-      method: "POST",
-      headers: {
-        "0x-api-key": ZEROEX_API_KEY as string,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tokenIn: "So11111111111111111111111111111111111111112", // SOL
-        tokenOut: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
-        amountIn: 10000000, // .01 SOL
-        taker: takerKeypair.publicKey.toBase58(),
-      }),
-    }
-  );
+  const response = await fetch("https://staging.api.0x.org/solana/quote", {
+    method: "POST",
+    headers: {
+      "0x-api-key": ZEROEX_API_KEY as string,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      tokenIn: "So11111111111111111111111111111111111111112", // SOL
+      tokenOut: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
+      amountIn: 10000000, // .01 SOL
+      taker: takerKeypair.publicKey.toBase58(),
+    }),
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch quote: ${response.statusText}`);
@@ -70,26 +67,42 @@ function buildInstructions(instructionsData: any[]): TransactionInstruction[] {
   });
 }
 
-// === Step 3: Send the Transaction ===
+// === Step 3: Send the Transaction using VersionedTransaction with Simulation ===
 async function executeSwap() {
   const quote = await getQuote();
   const instructions = buildInstructions(quote.instructions);
   const latestBlockhash = await connection.getLatestBlockhash();
 
-  // Create transaction message
   const messageV0 = new TransactionMessage({
     payerKey: takerKeypair.publicKey,
     recentBlockhash: latestBlockhash.blockhash,
     instructions,
-  }).compileToV0Message(); // No ALT
+  }).compileToV0Message();
 
-  // Create versioned transaction
   const versionedTx = new VersionedTransaction(messageV0);
   versionedTx.sign([takerKeypair]);
 
+  // === 🧪 Simulate Transaction ===
+  const { value: simulationResult } = await connection.simulateTransaction(
+    versionedTx,
+    {
+      sigVerify: true,
+    }
+  );
+
+  if (simulationResult.err) {
+    console.error("❌ Simulation failed:", simulationResult.err);
+    if (simulationResult.logs) {
+      console.error("🪵 Logs:\n" + simulationResult.logs.join("\n"));
+    }
+    throw new Error("Aborting due to failed simulation.");
+  } else {
+    console.log("✅ Simulation succeeded");
+  }
+
+  // === 🚀 Send Transaction ===
   const signature = await connection.sendTransaction(versionedTx, {
-    maxRetries: 2, // Increase retries for better chance of landing
-    skipPreflight: false, // Enable preflight checks to catch errors
+    skipPreflight: false,
   });
 
   await connection.confirmTransaction(signature, "confirmed");
