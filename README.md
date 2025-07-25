@@ -53,7 +53,7 @@ RPC_API_KEY="your-helius-api-key" # Get a free RPC key from [Helius](https://www
 ### 4. Run the Example
 
 ```bash
-npm run example
+npm run index
 ```
 
 ## 📝 Notes
