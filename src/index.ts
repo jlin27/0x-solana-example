@@ -6,7 +6,7 @@ import {
   VersionedTransaction,
 } from "@solana/web3.js";
 import fetch from "node-fetch";
-import { fetchConfig } from "./configuration";
+import { fetchConfig } from "./config";
 import {
   Instruction,
   InstructionAccount,
