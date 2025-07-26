@@ -13,14 +13,17 @@ This TypeScript project demonstrates how to interact with the [0x Swap API for S
 ✅ Simulation succeeded
 🔗 View on Solscan: https://solscan.io/tx/3fM1aQJMpBMK9BKDo58p66FvQQvFMR2LGxEpayDeNkirjB8bgQmvYwQofxdLvkRb28XUkLqs1ab23RjYpKBwV1mC/
 ✅ Transaction confirmed: https://solscan.io/tx/3fM1aQJMpBMK9BKDo58p66FvQQvFMR2LGxEpayDeNkirjB8bgQmvYwQofxdLvkRb28XUkLqs1ab23RjYpKBwV1mC/
-````
+```
 
 ## What It Does
 
 This script performs the following steps:
 
-1. Loads environment variables (API keys, private key).
+1. Loads environment variables from `.env` (API keys, private key).
 2. Fetches a swap quote from the 0x `/swap-instructions` endpoint.
+
+If you have provided a private key:
+
 3. Builds and signs a transaction from the instructions.
 4. Simulates the transaction to catch errors before sending.
 5. Sends a transaction to the Solana blockchain to execute the swap.
@@ -42,13 +45,13 @@ npm install
 
 ### 3. Create a `.env` File
 
-Copy the example below into a new `.env` file:
+Copy the example from [.env.example](./.env.example) into a new `.env` file:
 
-```dotenv
-ZEROEX_API_KEY="your-0x-api-key" 
-PRIVATE_KEY="your-base58-solana-private-key" # Must be base58-encoded
-RPC_API_KEY="your-helius-api-key" # Get a free RPC key from [Helius](https://www.helius.dev/).
-```
+| Variable Name    | Description                                                                                                          | Required | Default Value                         |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+| `ZEROEX_API_KEY` | API Key for use with 0x Solana API.                                                                                  | ✅       | _None_                                |
+| `PRIVATE_KEY`    | Must be base58-encoded.                                                                                              | ❌       | _Random generated_                    |
+| `RPC_URL`        | Valid Solana RPC HTTP endpoint. For example, get a free RPC key and endpoint from [Helius](https://www.helius.dev/). | ❌       | `https://api.mainnet-beta.solana.com` |
 
 ### 4. Run the Example
 
@@ -58,6 +61,4 @@ npm run index
 
 ## 📝 Notes
 
-* The amount and token mint addresses are hardcoded for simplicity (SOL → USDC), but can be parameterized.
-
-
+- The amount and token mint addresses are hardcoded for simplicity (SOL → USDC), but can be parameterized.
