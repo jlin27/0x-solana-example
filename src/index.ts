@@ -109,7 +109,7 @@ async function executeSwap() {
 
     // === Send Transaction ===
     const signature = await config.connection.sendTransaction(versionedTx, {
-      skipPreflight: false,
+      skipPreflight: true,
     });
 
     console.log(`🖊️ Transaction sent with signature: ${signature}`);
