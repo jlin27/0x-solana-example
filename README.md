@@ -10,16 +10,17 @@ This TypeScript project demonstrates how to interact with the [0x Swap API for S
 > 0x-solana-example@1.0.0 index
 > tsx src/index.ts
 
+💰 Quote received
 ✅ Simulation succeeded
-🔗 View on Solscan: https://solscan.io/tx/3fM1aQJMpBMK9BKDo58p66FvQQvFMR2LGxEpayDeNkirjB8bgQmvYwQofxdLvkRb28XUkLqs1ab23RjYpKBwV1mC/
-✅ Transaction confirmed: https://solscan.io/tx/3fM1aQJMpBMK9BKDo58p66FvQQvFMR2LGxEpayDeNkirjB8bgQmvYwQofxdLvkRb28XUkLqs1ab23RjYpKBwV1mC/
+Transaction sent with signature: 2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H
+✅ Transaction confirmed: https://solscan.io/tx/2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H/
 ```
 
 ## What It Does
 
 This script performs the following steps:
 
-1. Loads environment variables from `.env` (API keys, private key).
+1. Loads environment variables from `.env` (0x API key, private key, RPC URL).
 2. Fetches a swap quote from the 0x `/swap-instructions` endpoint.
 
 If you have provided a private key:

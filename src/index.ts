@@ -31,7 +31,7 @@ async function getQuote(): Promise<ZeroExQuoteResponse> {
       body: JSON.stringify({
         tokenOut: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
         tokenIn: "So11111111111111111111111111111111111111112", // SOL
-        amountIn: 100000000, // .001 SOL
+        amountIn: 1000000, // .001 SOL
         taker: config.keypairConfig.keypair.publicKey.toBase58(),
       }),
     }
@@ -112,12 +112,16 @@ async function executeSwap() {
       skipPreflight: false,
     });
 
-    console.log(`🔗 View on Solscan: https://solscan.io/tx/${signature}/`);
+    console.log(`🖊️ Transaction sent with signature: ${signature}`);
 
     // === Confirm Transaction Status ===
     const confirmation = await config.connection.confirmTransaction(
-      signature,
-      "processed"
+      {
+        signature,
+        blockhash: latestBlockhash.blockhash,
+        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      },
+      "finalized"
     );
 
     if (confirmation.value.err) {
@@ -126,7 +130,7 @@ async function executeSwap() {
       );
     } else {
       console.log(
-        `✅ Transaction confirmed: https://solscan.io/tx/${signature}/`
+        `✅ Transaction confirmed: https://solscan.io/tx/${signature}`
       );
     }
   } catch (error) {
