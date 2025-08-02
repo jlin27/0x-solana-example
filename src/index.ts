@@ -32,6 +32,7 @@ async function getQuote(): Promise<ZeroExQuoteResponse> {
         tokenOut: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
         tokenIn: "So11111111111111111111111111111111111111112", // SOL
         amountIn: 1000000, // .001 SOL
+        slippage_bps: 100, // Optional slippage in basis points (1% = 100 bps). Default is 50 bps if omitted.
         taker: config.keypairConfig.keypair.publicKey.toBase58(),
       }),
     }
