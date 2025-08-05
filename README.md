@@ -12,7 +12,7 @@ This TypeScript project demonstrates how to interact with the [0x Swap API for S
 
 💰 Quote received
 ✅ Simulation succeeded
-Transaction sent with signature: 2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H
+✍️ Transaction sent with signature: 2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H
 ✅ Transaction confirmed: https://solscan.io/tx/2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H/
 ```
 
