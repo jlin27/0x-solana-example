@@ -12,7 +12,7 @@ This TypeScript project demonstrates how to interact with the [0x Swap API for S
 
 💰 Quote received
 ✅ Simulation succeeded
-Transaction sent with signature: 2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H
+✍️ Transaction sent with signature: 2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H
 ✅ Transaction confirmed: https://solscan.io/tx/2TDhPBiHTQWzcJf72VGnXRaq4mpAN3qymbTC4brg4vdQvXBWirEsmzNCMbb3htKBgsz2yiksjtH4qkVr5mScf12H/
 ```
 
@@ -34,7 +34,7 @@ If you have provided a private key:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/jlin27/0x-solana-example.git
+git clone https://github.com/0xProject/0x-solana-example.git
 cd 0x-solana-example
 ```
 
