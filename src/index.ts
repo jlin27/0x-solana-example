@@ -25,7 +25,7 @@ async function getQuote(): Promise<ZeroExQuoteResponse> {
     body: JSON.stringify({
       token_out: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
       token_in: "So11111111111111111111111111111111111111112", // SOL
-      amount_in: 1000000, // 0.001 SOL (1 SOL = 1,000,000,000 lamports)
+      amount_in: 1000000, // 0.001 SOL
       slippage_bps: 100, // Optional. Slippage tolerance in basis points (bps). Must be between 0 and 10,000.
       taker: config.keypairConfig.keypair.publicKey.toBase58(),
     }),
